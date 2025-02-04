@@ -1,1 +1,1 @@
-__all__ = ["coingecko-service"]
+__all__ = ["service.py"]

@@ -16,6 +16,17 @@ headers = {
 }
 
 
+def list_coins():
+    url = f"{domain}/coins/list"
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching data: {e}")
+        return None
+
+
 def get_coin_data_by_id(coin_id):
     url = f"{domain}/coins/{coin_id}"
     params = {
