@@ -27,7 +27,7 @@ def list_coins():
         return None
 
 
-def get_coin_data_by_id(coin_id):
+def fetch_coin_data_by_id(coin_id):
     url = f"{domain}/coins/{coin_id}"
     params = {
         "localization": False,
