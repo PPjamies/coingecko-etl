@@ -3,7 +3,7 @@ import pytest
 from coingecko.db.coin import Base, engine, Session
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope='session')
 def setup_database():
     Base.metadata.create_all(engine)
     yield

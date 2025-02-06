@@ -27,5 +27,3 @@ def test_create_coin(session):
 
     actual_coin = retrieve_coin(session, expected_coin.id)
     assert expected_coin is actual_coin
-
-

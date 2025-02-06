@@ -9,9 +9,9 @@ Base = declarative_base()
 
 # create db connection
 load_dotenv()
-db_url = os.getenv("DB_URL")
+db_url = os.getenv('DB_URL')
 if not db_url:
-    raise ValueError("Missing environment variable: DB_URL")
+    raise ValueError('Missing environment variable: DB_URL')
 engine = create_engine(db_url, echo=True)
 
 # create tables (if they don't already exist)
@@ -28,7 +28,7 @@ class CoinNotFoundError(Exception):
 
 # model class
 class Coin(Base):
-    __tablename__ = "coins"
+    __tablename__ = 'coins'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     symbol = Column(String(5), nullable=False)
@@ -52,12 +52,12 @@ def create_coin(session, coin: Coin):
 def retrieve_coin(session, coin_id: Integer):
     coin = session.query(Coin).filter_by(id=coin_id).first()
     if not coin:
-        raise CoinNotFoundError(f"No coin found with ID = {coin_id}")
+        raise CoinNotFoundError(f'No coin found with ID = {coin_id}')
     return coin
 
 
 def list_coins_by_symbol(session, symbol: str):
     coins = session.query(Coin).filter(Coin.symbol == symbol).all()
     if not coins:
-        raise CoinNotFoundError(f"No coins found with Symbol = {symbol}")
+        raise CoinNotFoundError(f'No coins found with Symbol = {symbol}')
     return coins
