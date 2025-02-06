@@ -1,4 +1,5 @@
 from coingecko.db.coin import Coin
+from coingecko.util import ceil_3_decimals
 
 
 def validate_data(data, required_fields):
@@ -37,13 +38,13 @@ def transform(data):
     last_updated = market_data['last_updated']
 
     # custom calculations
-    unavailable_supply = (
+    unavailable_supply = ceil_3_decimals(
         (total_supply - circulating_supply)
         if total_supply is not None and circulating_supply is not None
         else None
     )
 
-    issuance_progress = (
+    issuance_progress = ceil_3_decimals(
         (total_supply / max_supply)
         if total_supply is not None and max_supply is not None and max_supply not in [None, 0]
         else None
