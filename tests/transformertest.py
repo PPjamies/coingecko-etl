@@ -1,5 +1,5 @@
-from coingecko.db.coin import Coin
-from coingecko.transformer.transformer import transform
+from src.coin import Coin
+from src.transformer import transform
 
 
 def test_transform():

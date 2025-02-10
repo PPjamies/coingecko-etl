@@ -1,5 +1,5 @@
-from coingecko.db.coin import Coin
-from coingecko.util import ceil_3_decimals
+from src.coin import Coin
+from src.util import ceil_3_decimals
 
 
 def validate_data(data, required_fields):

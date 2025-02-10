@@ -1,6 +1,6 @@
 import datetime
 
-from coingecko.db.coin import Coin, create_coin, retrieve_coin, list_coins_by_symbol
+from src.coin import Coin, create_coin, retrieve_coin, list_coins_by_symbol
 
 
 def test_create_coin(session):

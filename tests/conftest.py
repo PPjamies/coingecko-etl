@@ -1,6 +1,6 @@
 import pytest
 
-from coingecko.db.coin import Base, engine, Session
+from src.coin import Base, engine, Session
 
 
 @pytest.fixture(scope='session')
