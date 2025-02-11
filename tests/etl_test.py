@@ -1,5 +1,7 @@
+import json
+
 from src.coin import Coin
-from src.transformer import transform
+from src.etl import transform
 
 
 def test_transform():
@@ -16,7 +18,7 @@ def test_transform():
         unavailable_supply=0,
     )
 
-    transformed_coin = transform({
+    data = {
         "id": "bitcoin",
         "symbol": "btc",
         "name": "Bitcoin",
@@ -43,15 +45,18 @@ def test_transform():
             "last_updated": "2025-02-05T22:11:41.470Z"
         },
         "last_updated": "2025-02-05T22:11:41.470Z"
-    })
+    }
+
+    transformed_coin = transform(json.dumps(data))
+    transformed_coin = json.loads(transformed_coin)
     assert transformed_coin
-    assert transformed_coin.symbol == coin.symbol
-    assert transformed_coin.name == coin.name
-    assert transformed_coin.price == coin.price
-    assert transformed_coin.total_volume == coin.total_volume
-    assert transformed_coin.total_supply == coin.total_supply
-    assert transformed_coin.max_supply == coin.max_supply
-    assert transformed_coin.market_cap == coin.market_cap
-    assert transformed_coin.issuance_progress == coin.issuance_progress
-    assert transformed_coin.circulating_supply == coin.circulating_supply
-    assert transformed_coin.unavailable_supply == coin.unavailable_supply
+    assert transformed_coin["symbol"] == coin.symbol
+    assert transformed_coin["name"] == coin.name
+    assert transformed_coin["price"] == coin.price
+    assert transformed_coin["total_volume"] == coin.total_volume
+    assert transformed_coin["total_supply"] == coin.total_supply
+    assert transformed_coin["max_supply"] == coin.max_supply
+    assert transformed_coin["market_cap"] == coin.market_cap
+    assert transformed_coin["issuance_progress"] == coin.issuance_progress
+    assert transformed_coin["circulating_supply"] == coin.circulating_supply
+    assert transformed_coin["unavailable_supply"] == coin.unavailable_supply
