@@ -3,6 +3,8 @@
 A scheduled ETL workflow using Apache Airflow, Python, PostgreSQL, and Docker to fetch Bitcoin data from the CoinGecko
 API, process it, and store it in a PostgreSQL database.
 
+Tag: Data Engineering
+
 ## **Overview**
 
 This ETL pipeline:
