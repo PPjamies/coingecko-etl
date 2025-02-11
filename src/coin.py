@@ -43,6 +43,22 @@ class Coin(Base):
     unavailable_supply = Column(Integer)  # (total supply - circulating supply)
     updated_on = Column(DateTime)
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "symbol": self.symbol,
+            "name": self.name,
+            "price": self.price,
+            "total_volume": self.total_volume,
+            "total_supply": self.total_supply,
+            "max_supply": self.max_supply,
+            "market_cap": self.market_cap,
+            "issuance_progress": self.issuance_progress,
+            "circulating_supply": self.circulating_supply,
+            "unavailable_supply": self.unavailable_supply,
+            "updated_on": self.updated_on
+        }
+
 
 def create_coin(session, coin: Coin):
     session.add(coin)

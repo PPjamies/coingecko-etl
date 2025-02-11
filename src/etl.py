@@ -1,35 +1,48 @@
-from src.coin import Coin
+import json
+
+from src.coin import Coin, Session, create_coin
+from src.service import fetch_coin_data_by_id
 from src.util import ceil_3_decimals
+from src.validator import validate
 
 
-def validate_data(data, required_fields):
-    if not data:
-        raise ValueError('Invalid data: None or empty')
-
-    missing_fields = [field for field in required_fields if field not in data]
-    if missing_fields:
-        raise ValueError(f'Missing Fields: {', '.join(missing_fields)}')
+def extract():
+    data = fetch_coin_data_by_id('bitcoin')
+    return json.dumps(data)
 
 
 def transform(data):
-    validate_data(data, ['symbol', 'name', 'market_data'])
+    print(f"type of data in transform: {type(data)}")  # airflow passes in string
+    print(f"The data that came through: {data}")
+
+    # turn string back to json
+    if isinstance(data, str):
+        print("Airflow casts results from extract task into a string. Attempting to convert to json")
+        try:
+            data = json.loads(data)
+            print(f"Transformed Task - Type after parsing: {type(data)}")
+        except json.JSONDecodeError as e:
+            print(f"JSONDecodeError: {e}")
+            return None
+
+    validate(data, ['symbol', 'name', 'market_data'])
     symbol = data['symbol']
     name = data['name']
     market_data = data['market_data']
 
-    validate_data(market_data, ['current_price', 'market_cap', 'total_volume', 'total_supply', 'max_supply',
-                                'circulating_supply', 'last_updated'])
+    validate(market_data, ['current_price', 'market_cap', 'total_volume', 'total_supply', 'max_supply',
+                           'circulating_supply', 'last_updated'])
 
     current_price = market_data['current_price']
-    validate_data(current_price, ['usd'])
+    validate(current_price, ['usd'])
     current_price_usd = current_price.get('usd')
 
     market_cap = market_data['market_cap']
-    validate_data(market_cap, ['usd'])
+    validate(market_cap, ['usd'])
     market_cap_usd = market_cap.get('usd')
 
     total_volume = market_data['total_volume']
-    validate_data(total_volume, ['usd'])
+    validate(total_volume, ['usd'])
     total_volume_usd = total_volume.get('usd')
 
     total_supply = market_data['total_supply']
@@ -50,7 +63,7 @@ def transform(data):
         else None
     )
 
-    return Coin(
+    coin = Coin(
         symbol=symbol,
         name=name,
         price=current_price_usd,
@@ -63,3 +76,9 @@ def transform(data):
         issuance_progress=issuance_progress,
         updated_on=last_updated
     )
+    return json.dumps(coin.to_dict())
+
+
+def load(coin):
+    # airflow takes in a string representation of the object
+    create_coin(Session, coin)
