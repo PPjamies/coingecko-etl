@@ -1,6 +1,9 @@
 import os
 
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 domain = os.getenv('COINGECKO_DOMAIN')
 api_key = os.getenv('COINGECKO_KEY')
@@ -30,11 +33,11 @@ def list_coins():
 def fetch_coin_data_by_id(coin_id):
     url = f'{domain}/coins/{coin_id}'
     params = {
-        'localization': False,
-        'tickers': False,
-        'community_data': False,
-        'developer_data': False,
-        'sparkline': False
+        'localization': 'false',
+        'tickers': 'false',
+        'community_data': 'false',
+        'developer_data': 'false',
+        'sparkline': 'false'
     }
     try:
         response = requests.get(url, headers=headers, params=params)
