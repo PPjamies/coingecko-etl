@@ -7,7 +7,7 @@ from src.etl import transform
 def test_transform():
     coin = Coin(
         symbol='btc',
-        name='Bitcoin',
+        coin_name='Bitcoin',
         price=96875,
         total_volume=41434491297,
         total_supply=19820162,
@@ -51,7 +51,7 @@ def test_transform():
     transformed_coin = json.loads(transformed_coin)
     assert transformed_coin
     assert transformed_coin["symbol"] == coin.symbol
-    assert transformed_coin["name"] == coin.name
+    assert transformed_coin["coin_name"] == coin.coin_name
     assert transformed_coin["price"] == coin.price
     assert transformed_coin["total_volume"] == coin.total_volume
     assert transformed_coin["total_supply"] == coin.total_supply

@@ -6,7 +6,7 @@ from src.coin import Coin, create_coin, retrieve_coin, list_coins_by_symbol
 def test_create_coin(session):
     coin = Coin(
         symbol='btc',
-        name='bitcoin',
+        coin_name='bitcoin',
         price=123.45,
         total_volume=123,
         total_supply=123,

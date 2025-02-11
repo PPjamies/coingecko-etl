@@ -17,7 +17,7 @@ engine = create_engine(db_url, echo=True)
 # create tables (if they don't already exist)
 Base.metadata.create_all(engine)
 
-# create sessionmaker for interacting with db
+# create sessionmaker factory for interacting with db
 Session = sessionmaker(bind=engine)
 
 
@@ -32,7 +32,7 @@ class Coin(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     symbol = Column(String(5), nullable=False)
-    name = Column(String(30), nullable=False)
+    coin_name = Column(String(30), nullable=False)
     price = Column(Float)
     total_volume = Column(Integer)
     total_supply = Column(Integer)
@@ -47,7 +47,7 @@ class Coin(Base):
         return {
             "id": self.id,
             "symbol": self.symbol,
-            "name": self.name,
+            "coin_name": self.coin_name,
             "price": self.price,
             "total_volume": self.total_volume,
             "total_supply": self.total_supply,

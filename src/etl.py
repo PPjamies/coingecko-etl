@@ -22,7 +22,7 @@ def transform(data):
 
     validate(data, ['symbol', 'name', 'market_data'])
     symbol = data['symbol']
-    name = data['name']
+    coin_name = data['name']
     market_data = data['market_data']
 
     validate(market_data, ['current_price', 'market_cap', 'total_volume', 'total_supply', 'max_supply',
@@ -60,7 +60,7 @@ def transform(data):
 
     coin = Coin(
         symbol=symbol,
-        name=name,
+        coin_name=coin_name,
         price=current_price_usd,
         market_cap=market_cap_usd,
         total_volume=total_volume_usd,
@@ -75,5 +75,12 @@ def transform(data):
 
 
 def load(coin):
-    # airflow takes in a string representation of the object
-    create_coin(Session, coin)
+    if isinstance(coin, str):
+        try:
+            coin = json.loads(coin)
+        except json.JSONDecodeError as e:
+            print(f"JSONDecodeError: {e}")
+            return None
+
+    with Session() as session:
+        create_coin(session, Coin(**coin))
