@@ -12,15 +12,10 @@ def extract():
 
 
 def transform(data):
-    print(f"type of data in transform: {type(data)}")  # airflow passes in string
-    print(f"The data that came through: {data}")
-
-    # turn string back to json
+    """ Airflow casts results from extract_task into a json string """
     if isinstance(data, str):
-        print("Airflow casts results from extract task into a string. Attempting to convert to json")
         try:
             data = json.loads(data)
-            print(f"Transformed Task - Type after parsing: {type(data)}")
         except json.JSONDecodeError as e:
             print(f"JSONDecodeError: {e}")
             return None
